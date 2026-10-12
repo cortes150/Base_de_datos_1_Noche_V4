@@ -1,0 +1,68 @@
+create database unifest_db;
+use unifest_db;
+
+create table asistente (
+    id_asistente int auto_increment primary key,
+    nombre varchar(30) not null,
+    apellido varchar(30) not null,
+    correo varchar(40) not null,
+    telefono int not null,
+    tipo_usuario varchar(20) not null
+);
+create table evento (
+    id_evento int auto_increment primary key,
+    nombre varchar(40) not null,
+    fecha date not null,
+    hora varchar(20) not null,
+    lugar varchar(40) not null,
+    aforo int not null
+);
+create table tipo_entrada (
+    id_tipo_entrada int auto_increment primary key,
+    nombre varchar(30) not null,
+    precio float not null,
+    id_evento int,
+
+    constraint fk_tipo_entrada_evento 
+        foreign key (id_evento) references evento (id_evento)
+);
+create table venta (
+    id_venta int auto_increment primary key,
+    fecha date not null,
+    monto_total float not null,
+    monto_pagado float not null,
+    saldo_pendiente float not null,
+    estado_pago varchar(20) not null,
+    id_asistente int,
+
+    constraint fk_venta_asistente 
+        foreign key (id_asistente) references asistente (id_asistente)
+);
+create table entrada (
+    id_entrada int auto_increment primary key,
+    formato varchar(20) not null,
+    codigo_qr varchar(50),
+    asistencia varchar(10),
+    id_venta int,
+    id_tipo_entrada int,
+
+    constraint fk_entrada_venta 
+        foreign key (id_venta) references venta (id_venta),
+
+    constraint fk_entrada_tipo_entrada 
+        foreign key (id_tipo_entrada) references tipo_entrada (id_tipo_entrada)
+);
+create table recordatorio (
+    id_recordatorio int auto_increment primary key,
+    mensaje varchar(100),
+    fecha_envio date not null,
+    canal varchar(20),
+    id_evento int,
+    id_asistente int,
+
+    constraint fk_recordatorio_evento 
+        foreign key (id_evento) references evento (id_evento),
+
+    constraint fk_recordatorio_asistente 
+        foreign key (id_asistente) references asistente (id_asistente)
+);
