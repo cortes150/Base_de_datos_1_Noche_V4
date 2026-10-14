@@ -1,12 +1,13 @@
-create database uniProyect_db,
-use uniProyecto_db
+create database uniProyect_db;
+use uniProyecto_db;
 
 create table estudiante(
-id_estudiante auto_increment primary key,
+id_estudiante int auto_increment primary key,
 nombre varchar (100) not null,
-ap.paterno varchar (10) not null,
-ap.materno varchar (10) not null,
-edad int not null,
+ap_paterno varchar (10) not null,
+ap_materno varchar (10) not null,
+edad int not null
+
 );
 
 create table registro(
