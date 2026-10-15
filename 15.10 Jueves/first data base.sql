@@ -5,8 +5,8 @@ create table categoria (
     id_categoria int auto_increment primary key,
     nombre_categoria varchar(50) not null,
     estado boolean not null 
-);
 
+);
 create table planta_produccion (
     id_planta_produccion int auto_increment primary key,
     nombre varchar(80) not null,
@@ -85,14 +85,50 @@ create table entrega (
     constraint fk_entrega_pedido foreign key (id_pedido) references pedido(id_pedido),
     constraint fk_entrega_ruta foreign key (id_ruta) references ruta(id_ruta)
 );
-/*foreign key*/
-alter table entrega
-add column id_store int,
-add constraint buyers_store
-foreign key (id_store) references store (id);
-/*primary key*/
-alter table entrega
-add column id int not null auto_increment first,
-add primary key (id);
-/* add, drop, modify*/
-alter table entrega add nueva_entrega varchar(50) not null;
+insert into categoria(nombre, estado)
+values
+('lacteos', 1),
+('bebidas', 1),
+('limpieza', 0),
+('Snacks', 0),
+('conservas', 1);
+
+insert into planta_produccion(nombre, latidud, longitud)
+values
+('Planta La Paz', -16.500, -68.1500),
+('Planta Cochabamba', -17.3900, -66.1600),
+('Planta Santa Cruz', -17.7800, -63.1800),
+('Planta Oruro', -17.9600, -67.1100),
+('Planta Sucre', -19.0300, -65.2600);
+
+insert into ciudad(id_planta_produccion, nombre)
+values
+('La Paz'),
+('Cochabamba'),
+('Santa Cruz'),
+('Oruro'),
+('Sucre');
+
+insert into producto(nombre, precio, caducidad, id_categoria)
+values
+('Agua Mineral', 5.00, 365, 1),
+('Lecha', 7.50, 30, 2),
+('Detergente', 15.00, 730, 3),
+('Papas Fritas', 4.00, 180, 4),
+('Atun en Lata', 12.00, 730, 5);
+
+insert into usuario(nombre, rol, correo, id_planta_produccion)
+values
+('Juan Perez', 'Administrador', 'juan@gmail.com'),
+('Maria Lopez', 'Empleado', 'maria@gmail.com'),
+('Pedro Rojas', 'Supervisor', 'pedro@gmail.com'),
+('Ana Flores', 'Empleado', 'ana@gmail.com'),
+('Luis Vargas', 'Administrador', 'luis@gmail.com');
+
+insert into distribuido(nombre, telefono, correo)
+values
+('Distribuidor Andina', 70123451, 'andina@gmail.com'),
+('Distribuidor Central', 70234562, 'central@gmail.com'),
+('Distribuidor del Sur', 70345673, 'sur@gmail.com'),
+('Distribuidor Norte', 70456784, 'norte@gmail.com'),
+('Distribuidor Oriente', 70567895, 'oriente@gmail.com');
