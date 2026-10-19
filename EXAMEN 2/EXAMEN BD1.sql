@@ -1,54 +1,68 @@
-create database uniProyect_db;
-use uniProyecto_db;
+create database UniProjects;
+use UniProjects;
 
-create table estudiante(
-id_estudiante int auto_increment primary key,
-nombre varchar (100) not null,
-ap_paterno varchar (10) not null,
-ap_materno varchar (10) not null,
-edad int not null
-
+create table Estudiante (
+    id_estudiante int auto_increment primary key,
+    nombre varchar(80) not null,
+    apellido varchar(80) not null,
+    correo varchar(120) not null,
+    alter table estudiante add nuevo_estudiante varchar (100) not null
+);
+/* agrega una restriccion chekk llamada select * from selecciono los todos*/
+/*una insercion llenar datos a la tabla evalucacion 
+a cada tabla 5 inserciones 
+una insercion en evaluacion */
+CREATE TABLE Materia (
+    id_materia INT AUTO_INCREMENT PRIMARY KEY,
+    codigo VARCHAR(20) NOT NULL UNIQUE,
+    nombre VARCHAR(100) NOT NULL
 );
 
-create table registro(
-id_registro int auto_increment primary key,
-tema varchar (50) not null,
-categoria varchar (50) not null,
-fecha int not null,
-hora int not null ,
-constraint fk_registro foreign key (id_estudiante) references registro(id_registro)
+CREATE TABLE Proyecto (
+    id_proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    tema VARCHAR(150) NOT NULL,
+    categoria VARCHAR(80),
+    fecha_presentacion DATE,
+    id_materia INT NOT NULL,
+    FOREIGN KEY (id_materia)
+        REFERENCES Materia(id_materia)
+        alter table Jurado add categoria varchar (50) not null,
 );
 
-create table materia(
-id_materia int auto_increment primary key,
-turno varchar (50) not null,
-duracion int not null,
-nombre varchar (50) not null,
-constraint fk_estudiante foreign key (id_materia) references materia(id_materia)
+CREATE TABLE Jurado (
+    id_jurado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    especialidad VARCHAR(100),
+    alter table Jurado drop especialidad varchar(50) not null,
+    alter table Jurado add categoria varchar (50) not null,
 );
 
-create table jurado( 
-id_jurado int auto_increment primary key,
-nombre varchar (50) not null,
-edad int not null,
-cargo varchar (50) not null
+CREATE TABLE Participacion (
+    id_participacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_estudiante INT NOT NULL,
+    id_proyecto INT NOT NULL,
+    rol VARCHAR(60),
+    fecha_ingreso DATE,
+    UNIQUE (id_estudiante, id_proyecto),
+    FOREIGN KEY (id_estudiante)
+        REFERENCES Estudiante(id_estudiante),
+    FOREIGN KEY (id_proyecto)
+        REFERENCES Proyecto(id_proyecto)
 );
 
-create table proyecto( 
-id_proyecto int auto_increment primary key,
-asignatura varchar (50) not null,
-nombre varchar (50) not null,
-observaciones varchar (500) not null,
-categoria_de_tipo varchar (50) not null,
-constraint fk_id_estudiante foreign key (id_proyecto) references proyecto(id_proyecto)
-constraint fk_id_jurado foreign key (id_jurado) references proyecto(id_proyecto)
+CREATE TABLE Evaluacion (
+    id_evaluacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_jurado INT NOT NULL,
+    id_proyecto INT NOT NULL,
+    criterio VARCHAR(150) NOT NULL,
+    puntaje DECIMAL(6,2) NOT NULL,
+    observaciones TEXT,
+    calificacion_final DECIMAL(6,2),
+    FOREIGN KEY (id_jurado) REFERENCES Jurado(id_jurado),
+	FOREIGN KEY (id_proyecto) REFERENCES Proyecto(id_proyecto),
+    constraint fk_evaluacion_criterio foreign key (id_criterio) references criterio(id_criterio),
+    constraint fk_evaluacion_puntaje foreign key (id_puntaje) references puntaje(id_puntaje),
+    constraint fk_evaluacion_observaciones foreign key (id_observaciones) references obaservaciones(id_observaciones)
 );
 
-create table evaluacion(
-id_evaluacion int auto_increment primary key,
-puntaje double not null,
-observacion varchar (500) not null,
-criterio varchar (100) not 
-constraint fk_id_proyecto foreign key (id_proyecto) references proyecto(id_proyecto)
-constraint fk_id_jurado foreign key (id_jurado) references proyecto(id_evaluacion)
-);
